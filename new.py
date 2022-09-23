@@ -1,6 +1,3 @@
-from curses import window
-from email.policy import default
-from flask import Flask, request, jsonify
 import urllib.request as urllib
 import json
 import time
@@ -14,10 +11,7 @@ from adtk.detector import MinClusterDetector
 import pandas as pd
 from datetime import datetime
 from dateutil import tz
-from adtk.visualization import plot
 import smtplib
-import plotly
-import os
 READ_API_KEY='   '
 CHANNEL_ID= '    '
 
