@@ -38,7 +38,7 @@ def sendEmail(to,sub,msg):
     s.quit()
 
 def test():
-
+    print("1")
     TS = urllib.urlopen("https://api.thingspeak.com/channels/1837496/feeds.json?api_key=ZPJ8PYOOKBVK4DQT&results=1")
     TD = urllib.urlopen("https://api.thingspeak.com/channels/1837496/feeds.json?api_key=ZPJ8PYOOKBVK4DQT&results=5000")
     response = TS.read()
@@ -76,6 +76,7 @@ def test():
     s4 = validate_series(data4)
     s5 = validate_series(data5)
     s6 = validate_series(data6)
+    print("1")
     levelshift_ad = LevelShiftAD(c = 6.0, window = 20)
     anomalies11 = levelshift_ad.fit_detect(s1)
     anomaly_values11 = anomalies11[anomalies11.values == True].index
@@ -318,71 +319,75 @@ def test():
             string = string + '. The levels detected of ' + string1[i] + ' exceeds the threshold value'
         if anom_num[i][4] == 1:
             string = string + '. The current level of ' + string1[i] + ' indicates an abnormality in received data'
-    if num_anom[0] > 10 and num_anom[0] < 25:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[0]) + ", it may not be something worrying" + string)
-    if num_anom[0] > 20 and num_anom[0] < 45:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[0]) + ", there might be something you ight want to check out" + string)
-    if num_anom[0] > 45 and num_anom[0] < 65:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[0]) + ", it would be wise to check your farm once" + string)
-    if num_anom[0] > 65 and num_anom[0] < 85:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[0]) + ", something is up in the farm, please check it" + string)
-    if num_anom[0] > 85 and num_anom[0] < 105:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[0]) + ", visit your farm to make sure nothing is wrong" + string)
 
-    if num_anom[1] > 10 and num_anom[1] < 25:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", it may not be something worrying" + string)
-    if num_anom[1] > 20 and num_anom[1] < 45:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", there might be something you ight want to check out" + string)
-    if num_anom[1] > 45 and num_anom[1] < 65:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", it would be wise to check your farm once" + string)
-    if num_anom[1] > 65 and num_anom[1] < 85:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", something is up in the farm, please check it" + string)
-    if num_anom[1] > 85 and num_anom[1] < 105:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", visit your farm to make sure nothing is wrong" + string)
+    prob=(sum(num_anom))/6
+    prob=round(prob,2)
+    print(prob)
+    if prob > 0 and prob <= 12:
+        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(prob) + ", it may not be something worrying" + string)
+    if prob > 12 and prob <= 36:
+        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(prob) + ", there might be something you ight want to check out" + string)
+    if prob > 36 and prob <= 60:
+        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(prob) + ", it would be wise to check your farm once" + string)
+    if prob > 60 and prob <= 84:
+        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(prob) + ", something is up in the farm, please check it" + string)
+    if prob > 85 and prob <= 100:
+        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(prob) + ", visit your farm to make sure nothing is wrong" + string)
 
-    if num_anom[2] > 10 and num_anom[2] < 25:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", it may not be something worrying" + string)
-    if num_anom[2] > 20 and num_anom[2] < 45:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", there might be something you ight want to check out" + string)
-    if num_anom[2] > 45 and num_anom[2] < 65:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", it would be wise to check your farm once" + string)
-    if num_anom[2] > 65 and num_anom[2] < 85:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", something is up in the farm, please check it" + string)
-    if num_anom[2] > 85 and num_anom[2] < 105:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", visit your farm to make sure nothing is wrong" + string)
+    # if num_anom[1] > 10 and num_anom[1] < 25:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", it may not be something worrying" + string)
+    # if num_anom[1] > 20 and num_anom[1] < 45:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", there might be something you ight want to check out" + string)
+    # if num_anom[1] > 45 and num_anom[1] < 65:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", it would be wise to check your farm once" + string)
+    # if num_anom[1] > 65 and num_anom[1] < 85:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", something is up in the farm, please check it" + string)
+    # if num_anom[1] > 85 and num_anom[1] < 105:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[1]) + ", visit your farm to make sure nothing is wrong" + string)
+
+    # if num_anom[2] > 10 and num_anom[2] < 25:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", it may not be something worrying" + string)
+    # if num_anom[2] > 20 and num_anom[2] < 45:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", there might be something you ight want to check out" + string)
+    # if num_anom[2] > 45 and num_anom[2] < 65:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", it would be wise to check your farm once" + string)
+    # if num_anom[2] > 65 and num_anom[2] < 85:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", something is up in the farm, please check it" + string)
+    # if num_anom[2] > 85 and num_anom[2] < 105:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[2]) + ", visit your farm to make sure nothing is wrong" + string)
     
-    if num_anom[3] > 10 and num_anom[3] < 25:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", it may not be something worrying" + string)
-    if num_anom[3] > 20 and num_anom[3] < 45:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", there might be something you ight want to check out" + string)
-    if num_anom[3] > 45 and num_anom[3] < 65:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", it would be wise to check your farm once" + string)
-    if num_anom[3] > 65 and num_anom[3] < 85:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", something is up in the farm, please check it" + string)
-    if num_anom[3] > 85 and num_anom[3] < 105:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", visit your farm to make sure nothing is wrong" + string)
+    # if num_anom[3] > 10 and num_anom[3] < 25:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", it may not be something worrying" + string)
+    # if num_anom[3] > 20 and num_anom[3] < 45:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", there might be something you ight want to check out" + string)
+    # if num_anom[3] > 45 and num_anom[3] < 65:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", it would be wise to check your farm once" + string)
+    # if num_anom[3] > 65 and num_anom[3] < 85:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", something is up in the farm, please check it" + string)
+    # if num_anom[3] > 85 and num_anom[3] < 105:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[3]) + ", visit your farm to make sure nothing is wrong" + string)
     
-    if num_anom[4] > 10 and num_anom[4] < 25:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", it may not be something worrying" + string)
-    if num_anom[4] > 20 and num_anom[4] < 45:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", there might be something you ight want to check out" + string)
-    if num_anom[4] > 45 and num_anom[4] < 65:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", it would be wise to check your farm once" + string)
-    if num_anom[4] > 65 and num_anom[4] < 85:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", something is up in the farm, please check it" + string)
-    if num_anom[4] > 85 and num_anom[4] < 105:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", visit your farm to make sure nothing is wrong" + string)
+    # if num_anom[4] > 10 and num_anom[4] < 25:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", it may not be something worrying" + string)
+    # if num_anom[4] > 20 and num_anom[4] < 45:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", there might be something you ight want to check out" + string)
+    # if num_anom[4] > 45 and num_anom[4] < 65:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", it would be wise to check your farm once" + string)
+    # if num_anom[4] > 65 and num_anom[4] < 85:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", something is up in the farm, please check it" + string)
+    # if num_anom[4] > 85 and num_anom[4] < 105:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[4]) + ", visit your farm to make sure nothing is wrong" + string)
     
-    if num_anom[5] > 10 and num_anom[5] < 25:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", it may not be something worrying" + string)
-    if num_anom[5] > 20 and num_anom[5] < 45:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", there might be something you ight want to check out" + string)
-    if num_anom[5] > 45 and num_anom[5] < 65:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", it would be wise to check your farm once" + string)
-    if num_anom[5] > 65 and num_anom[5] < 85:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", something is up in the farm, please check it" + string)
-    if num_anom[5] > 85 and num_anom[5] < 105:
-        sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", visit your farm to make sure nothing is wrong" + string)
+    # if num_anom[5] > 10 and num_anom[5] < 25:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", it may not be something worrying" + string)
+    # if num_anom[5] > 20 and num_anom[5] < 45:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", there might be something you ight want to check out" + string)
+    # if num_anom[5] > 45 and num_anom[5] < 65:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", it would be wise to check your farm once" + string)
+    # if num_anom[5] > 65 and num_anom[5] < 85:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", something is up in the farm, please check it" + string)
+    # if num_anom[5] > 85 and num_anom[5] < 105:
+    #     sendEmail("smartfarmingesw@gmail.com","Anomaly detected","Hi there! An anomaly was detected from the data with probability " + str(num_anom[5]) + ", visit your farm to make sure nothing is wrong" + string)
     
 
     sumanom = sum(num_anom)
